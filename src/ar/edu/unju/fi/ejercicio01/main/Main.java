@@ -10,6 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		ArrayList<Producto> productos = new ArrayList<>();
+		boolean band;
 		int opcion;
 		Scanner scanner = new Scanner(System.in);
 		do {
@@ -22,14 +23,34 @@ public class Main {
 			opcion = scanner.nextInt();
 			switch(opcion) {
 				case 1: 
+					band=false;
 					System.out.println("\n--Crear un Producto--");
 					System.out.print("Ingrese el codigo: ");
-					int codigo = scanner.nextInt();
+					int codigo=0;
+					do {
+						try {
+							codigo = scanner.nextInt();
+							band=true;
+						} catch (Exception e) {
+							System.out.println("Error. Vuelva a intentarlo");
+							scanner.nextLine();
+						}
+					} while(!band);
 					scanner.nextLine();
 					System.out.print("Ingrese la descripcion: ");
 					String descripcion = scanner.nextLine();
 					System.out.print("Ingrese un precio unitario: ");
-					double	precio = scanner.nextDouble();
+					band=false;
+					double precio=0;
+					do {
+						try {
+							precio = scanner.nextDouble();
+							band=true;
+						} catch (Exception e) {
+							System.out.println("Error. Vuelva a intentarlo");
+							scanner.nextLine();
+						}
+					} while(!band);
 					Producto.OrigenFabricacion origen = Producto.OrigenFabricacion.ARGENTINA;
 					int op=0;
 					do {
@@ -89,79 +110,98 @@ public class Main {
 						elemento.MostrarDatos();
 					}
 					break;
-				case 3: System.out.println("\n--Cambiar Datos--");
+				case 3: 
+					band=false;
+					System.out.println("\n--Cambiar Datos--");
 					System.out.println("Ingrese el codigo del producto a modificar: ");
-					int codigocambiar = scanner.nextInt();
-					
-					Iterator<Producto> iterat = productos.iterator();
-					int numeroposicion=0;
-					scanner.nextLine(); 
-					while (iterat.hasNext()) {
-						Producto aux = iterat.next();
-						if (aux.getCodigo() == codigocambiar) {
-							System.out.print("Ingrese una descripcion: ");
-							String descripcionnueva = scanner.nextLine();
-							int precionuevo=0;
-							System.out.print("Ingrese un precio unitario (un numero entero positivo): ");
-							precionuevo = scanner.nextInt();
-							Producto.OrigenFabricacion origennuevo = Producto.OrigenFabricacion.ARGENTINA;
-							op=0;
-							do {
-								System.out.println("\n--Origen de Fabricacion--");
-								System.out.println("1. TELEFONIA");
-								System.out.println("2. INFORMATICA");
-								System.out.println("3. ELECTRO HOGAR");
-								System.out.println("4. HERRAMIENTAS");
-								System.out.print("Elija una opcion: ");
-								op = scanner.nextInt();
-							} while (op<0 && op>5);
-							
-							switch(op) {
-								case 1: origennuevo = Producto.OrigenFabricacion.ARGENTINA; 
-									break;
-								case 2: origennuevo = Producto.OrigenFabricacion.CHINA; 
-									break;
-								case 3: origennuevo = Producto.OrigenFabricacion.BRASIL; 
-									break;
-								case 4: origennuevo = Producto.OrigenFabricacion.URUGUAY; 
-									break;
-							}
-							op=0;
-							Producto.Categoria categorianueva = Producto.Categoria.TELEFONIA;;	
-							do {
-								System.out.println("\n--Categoria--");
-								System.out.println("1. TELEFONIA");
-								System.out.println("2. INFORMATICA");
-								System.out.println("3. ELECTRO HOGAR");
-								System.out.println("4. HERRAMIENTAS");
-								System.out.print("Elija una opcion: ");
-								op = scanner.nextInt();
-							} while (op<1 && op>4);
-							
-							switch(op) {
-								case 1: categorianueva = Producto.Categoria.TELEFONIA; break;
-								case 2: categorianueva = Producto.Categoria.INFORMATICA; break;
-								case 3: categorianueva = Producto.Categoria.ELECTRO_HOGAR; break;
-								case 4: categorianueva = Producto.Categoria.HERRAMIENTAS; break;
-							}
-							
-							Producto productonuevo = new Producto(codigocambiar, descripcionnueva, precionuevo, origennuevo, categorianueva);
-							
-							productos.set(numeroposicion, productonuevo);
-							
+					int codigocambiar=0;
+					do {
+						try {
+							codigocambiar=scanner.nextInt();
+							band=true;
+						} catch (Exception e) {
+							System.out.println("Error. Vuelva a intentarlo");
+							scanner.nextLine();
+						}
+					} while(!band);
+					band=false;
+					for (int i=0; i<productos.size(); i++) {
+						Producto elemento = productos.get(i);
+						if (elemento.getCodigo()==codigocambiar) {
+							band=true;
 							break;
 						}
-						numeroposicion++;
 					}
+					if (band) {
+						Iterator<Producto> iterat = productos.iterator();
+						int numeroposicion=0;
+						scanner.nextLine(); 
+						while (iterat.hasNext()) {
+							Producto aux = iterat.next();
+							if (aux.getCodigo() == codigocambiar) {
+								System.out.print("Ingrese la nueva descripcion: ");
+								String descripcionnueva = scanner.nextLine();
+								int precionuevo=0;
+								System.out.print("Ingrese el nuevo precio unitario (un numero entero positivo): ");
+								precionuevo = scanner.nextInt();
+								Producto.OrigenFabricacion origennuevo = Producto.OrigenFabricacion.ARGENTINA;
+								op=0;
+								do {
+									System.out.println("\n--Nuevo Origen de Fabricacion--");
+									System.out.println("1. TELEFONIA");
+									System.out.println("2. INFORMATICA");
+									System.out.println("3. ELECTRO HOGAR");
+									System.out.println("4. HERRAMIENTAS");
+									System.out.print("Elija una opcion: ");
+									op = scanner.nextInt();
+								} while (op<0 && op>5);
+								
+								switch(op) {
+									case 1: origennuevo = Producto.OrigenFabricacion.ARGENTINA; 
+										break;
+									case 2: origennuevo = Producto.OrigenFabricacion.CHINA; 
+										break;
+									case 3: origennuevo = Producto.OrigenFabricacion.BRASIL; 
+										break;
+									case 4: origennuevo = Producto.OrigenFabricacion.URUGUAY; 
+										break;
+								}
+								op=0;
+								Producto.Categoria categorianueva = Producto.Categoria.TELEFONIA;;	
+								do {
+									System.out.println("\n--Nueva Categoria--");
+									System.out.println("1. TELEFONIA");
+									System.out.println("2. INFORMATICA");
+									System.out.println("3. ELECTRO HOGAR");
+									System.out.println("4. HERRAMIENTAS");
+									System.out.print("Elija una opcion: ");
+									op = scanner.nextInt();
+								} while (op<1 && op>4);
+								
+								switch(op) {
+									case 1: categorianueva = Producto.Categoria.TELEFONIA; 
+										break;
+									case 2: categorianueva = Producto.Categoria.INFORMATICA; 
+										break;
+									case 3: categorianueva = Producto.Categoria.ELECTRO_HOGAR; 
+										break;
+									case 4: categorianueva = Producto.Categoria.HERRAMIENTAS; 
+										break;
+								}						
+								Producto productonuevo = new Producto(codigocambiar, descripcionnueva, precionuevo, origennuevo, categorianueva);
+								productos.set(numeroposicion, productonuevo);
+								break;
+							}
+							numeroposicion++;
+						}
+					} else System.out.println("No se encontraron coincidencias");
 					break;
 				case 4: System.out.println("Programa Finalizado."); 
-					break;
-				
+					break;				
 				default : System.out.println("Opcion incorrecta. Vuelva a intenbtarlo");
 					break;
 			}
 		} while (opcion!=4);
 	scanner.close();
 	}
-
 }

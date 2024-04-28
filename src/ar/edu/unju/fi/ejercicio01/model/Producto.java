@@ -73,4 +73,5 @@ public class Producto {
 	    	System.out.println("Origen de Fabricacion: "+this.origenFabricacion);
 	    	System.out.println("Categoria: "+this.categoria);
 	}
+	
 }
