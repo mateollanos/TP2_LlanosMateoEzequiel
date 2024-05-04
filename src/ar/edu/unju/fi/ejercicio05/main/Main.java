@@ -24,22 +24,20 @@ public class Main {
         
         try {
         	do {
-    			try {
-    				band=false;
-    				while (!band) {
+        		do {
+        			band=false;
+        			try {
     					Menu();
         	      		op=scanner.nextInt();
         	      		scanner.nextLine();
-        	      		if (op<1 || op>3) {
-        	      			System.out.println("Elija una opcion valida");
-        	      		} else {
-        	      			band=true;
-        	      		}
-    				}
-    			} catch (Exception e) {
-    				System.out.println("Error");
-    			}
-    			
+        	      		band=true;
+        			} catch (Exception e) {
+        				System.out.println("Error");
+        				scanner.nextLine();
+        			}
+
+        		} while(!band);
+    			    			
     			switch (op) {
      	         	case 1:
      	         		System.out.println("\n--PRODUCTOS--");
@@ -61,6 +59,9 @@ public class Main {
      	         		break;
      	         	case 3:
      	         		System.out.println("Programa terminado");
+     	         		break;
+     	         	default: 
+     	         		System.out.println("Opcion incorrecta. Vuelva a intentarlo");
      	         		break;
      	        }
     	     } while (op!=3);
